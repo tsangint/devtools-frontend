@@ -11,13 +11,15 @@ function _dispatchOnInspectorFrontendAPI(method, args) {
 }
 
 setTimeout(()=>{
-  console.log(window['InspectorFrontendAPI']);
   if(window['InspectorFrontendAPI']){
+    console.log("Hippy: Extension added", window['InspectorFrontendAPI']);
     _dispatchOnInspectorFrontendAPI('addExtensions', [[{
       exposeExperimentalAPIs: false,
       name: 'Hippy',
       startPage: `chrome-extension://${hippyExtensionId}/main.html`
     }]]);
+  }else{
+    console.warn("Hippy: InspectorFrontendAPI未初始化", window['InspectorFrontendAPI'])
   }
-},1000)
+},2000)
 
