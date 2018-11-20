@@ -11,6 +11,7 @@ var shell = require('child_process').execSync;
 var Stream = require('stream').Transform;
 
 function fetch(url) {
+  url = url.replace('https:','http:')
   return new Promise(fetchPromise);
 
   function fetchPromise(resolve, reject) {
@@ -20,7 +21,15 @@ function fetch(url) {
     if (protocol === 'https:') {
       request = https.get(url, handleResponse);
     } else if (protocol === 'http:') {
-      request = http.get(url, handleResponse);
+      if(~url.indexOf("appspot.com")){
+        request = http.get({path:url,
+          host : 'web-proxy.oa.com',
+          port : 8080
+        }, handleResponse);
+      }else{
+        request = http.get(url, handleResponse);
+      }
+      
     } else {
       reject(new Error(`Invalid protocol for url: ${url}`));
       return;

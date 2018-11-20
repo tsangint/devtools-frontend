@@ -13,6 +13,7 @@ var REMOTE_DEBUGGING_PORT = parseInt(process.env.REMOTE_DEBUGGING_PORT, 10) || 9
 var SERVER_PORT = parseInt(process.env.PORT, 10) || 8090;
 var CHROMIUM_DEFAULT_PATH = path.resolve(__dirname, '..', '..', '..', '..', '..', '..', 'out', 'Release', 'chrome');
 var CHROME_PROFILE_PATH = path.resolve(__dirname, '..', '..', '.dev_profile');
+var HIPPY_EXTENSION_PATH = path.resolve(__dirname, '..', '..', '..','sync_code/devtools_hippy');
 
 var Flags = {
   RESET_PROFILE: '--reset-profile',
@@ -28,6 +29,7 @@ var chromeArgs = [
   `--remote-debugging-port=${REMOTE_DEBUGGING_PORT}`,
   `--custom-devtools-frontend=http://localhost:${SERVER_PORT}/front_end/`, `--no-first-run`,
   '--enable-devtools-experiments', `http://localhost:${REMOTE_DEBUGGING_PORT}#custom=true&experiments=true`,
+  `--load-extension=${HIPPY_EXTENSION_PATH}`,
   `https://devtools.chrome.com`, `--user-data-dir=${CHROME_PROFILE_PATH}`
 ].concat(process.argv.slice(2));
 
